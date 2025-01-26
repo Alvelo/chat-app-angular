@@ -1,0 +1,18 @@
+<h1>Websocket Chat</h1>
+<br>
+<mat-form-field>
+    <textarea matInput>{{response$.value}}</textarea>
+</mat-form-field>
+
+<div class="buttons-container">
+    <button mat-flat-button color="primary" (click)="onConnect()">Connect to websocket</button>
+    @if(this.wsconnect$.value){
+        <br>
+        <button mat-flat-button color="primary" (click)="onSendMessage()">Send Message</button>
+        <br>
+        <button mat-flat-button color="warn" (click)="onDisconnect()">Disconnect to websocket</button>    
+    } @else {
+
+    }
+
+</div>
