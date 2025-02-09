@@ -3,18 +3,24 @@ import ChatService from '../services/chat.service';
 import {MatButtonModule} from '@angular/material/button';
 import { BehaviorSubject } from 'rxjs';
 import {MatInputModule} from '@angular/material/input';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-chat-page',
-  imports: [MatButtonModule, MatInputModule],
+  imports: [MatButtonModule, MatInputModule, ReactiveFormsModule],
   templateUrl: './chat-page.component.html',
   styleUrl: './chat-page.component.scss'
 })
 export class ChatPageComponent implements OnInit {
+  form;
   response$ = new BehaviorSubject<string>('');
   wsconnect$ = new BehaviorSubject<boolean>(false);
-  constructor(private chatService: ChatService) {}
+  constructor(private chatService: ChatService, private fb: FormBuilder) {
+    this.form = this.fb.group({
+      'message': [''],
+    })
+  }
   ngOnInit(): void {
     this.wsconnect$ = this.chatService.connectionStatus$
   }
@@ -33,10 +39,19 @@ export class ChatPageComponent implements OnInit {
   onDisconnect(): void {
     this.chatService.disconnect();
     this.response$.next('');
+    this.form.get('message')?.setValue('');
   }
 
   onSendMessage() {
-    this.chatService.sendMessage('hi','sendmessage')
+    //console.log( this.form.get('message')?.value);
+    let value = this.form.get('message')?.value
+    if (value === null || value === undefined) {
+
+    } else {
+      this.chatService.sendMessage(value,'sendmessage')
+    }
+   
+    
   }
 
 
