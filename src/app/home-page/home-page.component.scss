@@ -1,0 +1,28 @@
+.home-page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #7b7b7b;
+   // padding: 16px;
+}
+
+mat-card {
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  mat-card-title,
+  mat-card-subtitle {
+    text-align: center;
+  }
+  
+  mat-card-actions {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  button {
+    width: 48%;
+  }
