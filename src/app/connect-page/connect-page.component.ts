@@ -9,10 +9,10 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angul
 @Component({
   selector: 'app-chat-page',
   imports: [MatButtonModule, MatInputModule, ReactiveFormsModule],
-  templateUrl: './chat-page.component.html',
-  styleUrl: './chat-page.component.scss'
+  templateUrl: './connect-page.component.html',
+  styleUrl: './connect-page.component.scss'
 })
-export class ChatPageComponent implements OnInit {
+export class ConnectPageComponent implements OnInit {
   form;
   response$ = new BehaviorSubject<string>('');
   wsconnect$ = new BehaviorSubject<boolean>(false);

@@ -1,10 +1,10 @@
 import { Routes } from '@angular/router';
-import { ChatPageComponent } from './chat-page/chat-page.component';
+import { ConnectPageComponent } from './connect-page/connect-page.component';
 
 export const routes: Routes = [
     {
         path: '',
-        component:ChatPageComponent,
+        component:ConnectPageComponent,
         pathMatch: 'full'
     }
 ];
