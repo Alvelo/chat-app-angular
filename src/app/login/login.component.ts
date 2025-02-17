@@ -88,7 +88,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       const user = await getCurrentUser();
       if (user) {
         // User is already signed in, redirect to dashboard
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/connect']);
       }
     } catch (error) {
       // User is not signed in, stay on login page
