@@ -13,12 +13,15 @@ export const routes: Routes = [
     {
         path: 'connect',
         component:ConnectPageComponent,
-     
     },
     {
         path: 'login',
         component:LoginComponent,
-     
+    },
+      // Wildcard route for undefined paths
+    {
+        path: '**',
+        component: HomePageComponent,
     }
 
 ];

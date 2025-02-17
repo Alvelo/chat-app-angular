@@ -1,12 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { fetchUserAttributes, getCurrentUser, updateUserAttributes, signOut, } from 'aws-amplify/auth';
-import {Amplify} from 'aws-amplify';
+import { 
+  fetchUserAttributes, 
+  getCurrentUser, 
+  updateUserAttributes, 
+  signOut, 
+  GetCurrentUserOutput,
+} from 'aws-amplify/auth';
+import { Amplify } from 'aws-amplify';
+import { Hub } from 'aws-amplify/utils'; 
 import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
-import { BrowserModule } from '@angular/platform-browser';
+import { Router, RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 Amplify.configure({
   Auth: {
@@ -17,21 +25,20 @@ Amplify.configure({
   }
 });
 
-
-
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule, 
+  imports: [
+    ReactiveFormsModule, 
     MatFormFieldModule, 
     MatInputModule, 
     MatButtonModule, 
     AmplifyAuthenticatorModule,
-    ],
+    CommonModule,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
-export class LoginComponent implements OnInit {
-
+export class LoginComponent implements OnInit, OnDestroy {
   formFields = {
     signUp: {
       name: {
@@ -49,10 +56,43 @@ export class LoginComponent implements OnInit {
     },
   };
 
-  // Form
   userForm!: FormGroup;
+  private hubListener: any;
 
-  constructor(private fb: FormBuilder) {}
-  ngOnInit(): void {}
+  constructor(private fb: FormBuilder, private router: Router) {}
 
+  ngOnInit(): void {
+    // Listen for auth events using Hub
+    this.hubListener = Hub.listen('auth', ({ payload }) => {
+      const { event } = payload;
+      
+      if (event === 'signedIn') {
+        // User is signed in, redirect to dashboard
+        this.router.navigate(['/connect']);
+      }
+    });
+
+    // Optional: Check if user is already signed in
+    this.checkAuthState();
+  }
+
+  ngOnDestroy(): void {
+    // Clean up the listener when component is destroyed
+    if (this.hubListener) {
+      this.hubListener();
+    }
+  }
+
+  private async checkAuthState() {
+    try {
+      const user = await getCurrentUser();
+      if (user) {
+        // User is already signed in, redirect to dashboard
+        this.router.navigate(['/dashboard']);
+      }
+    } catch (error) {
+      // User is not signed in, stay on login page
+      console.log('User is not signed in');
+    }
+  }
 }
