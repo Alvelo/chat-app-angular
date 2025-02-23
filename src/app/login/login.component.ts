@@ -68,7 +68,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       
       if (event === 'signedIn') {
         // User is signed in, redirect to dashboard
-        this.router.navigate(['/connect']);
+        this.router.navigate(['/dashboard']);
       }
     });
 
