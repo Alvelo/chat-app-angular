@@ -4,6 +4,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { BehaviorSubject } from 'rxjs';
 import {MatInputModule} from '@angular/material/input';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -16,7 +17,9 @@ export class ConnectPageComponent implements OnInit {
   form;
   response$ = new BehaviorSubject<string>('');
   wsconnect$ = new BehaviorSubject<boolean>(false);
-  constructor(private chatService: ChatService, private fb: FormBuilder) {
+  constructor(private chatService: ChatService, 
+    private fb: FormBuilder, 
+    private location: Location) {
     this.form = this.fb.group({
       'message': [''],
     })
@@ -54,5 +57,8 @@ export class ConnectPageComponent implements OnInit {
     
   }
 
+  onBackToList(): void {
+    this.location.back();
+  }
 
 }

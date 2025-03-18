@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import { Router } from '@angular/router';
 import { signOut, getCurrentUser, fetchUserAttributes } from 'aws-amplify/auth';
+import { MatButtonModule } from '@angular/material/button';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
-  imports: [ MatCardModule ],
+  imports: [ MatCardModule,MatButtonModule ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
@@ -26,5 +27,9 @@ export class DashboardComponent {
     } catch(err) {
 
     }
+  }
+
+  onWebsocketConnect():void {
+    this.router.navigate(['/connect']);
   }
 }
